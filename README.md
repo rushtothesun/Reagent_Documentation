@@ -92,6 +92,7 @@ The `RuleState` object provides a snapshot of the current game state. You can ac
 | `IsRightPanelOpen`       | `bool`   | `true` if the world map or atlas panel is open.                          |
 | `IsAnyFullscreenPanelOpen` | `bool`   | `true` if any fullscreen UI is open (e.g., Atlas, Passive Tree).       |
 | `IsAnyLargePanelOpen`    | `bool`   | `true` if any large UI panel is open (e.g., Stash, Vendor).               |
+| `MapStats`               | `StatDictionary` | A dictionary of the current map's stats (e.g., mods on a map). See `StatDictionary` for usage. |
 
 ### Entity & Monster Information
 

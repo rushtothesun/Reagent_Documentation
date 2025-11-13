@@ -38,16 +38,38 @@ ReAgent supports two different syntaxes for writing rule conditions, which can b
 
 -   **V2 (New):** This syntax is powered by Roslyn (`Microsoft.CodeAnalysis.Scripting`) and allows you to write much more complex, multi-line C# code. You can declare variables, write comments, and use more advanced language features. For any non-trivial rule, it is highly recommended to use the V2 syntax.
 
-**Example of a V2-only rule:**
+**Examples of V2 syntax rules:**
 
 ```csharp
-// Find the closest rare monster
-var closestRare = Monsters(100, MonsterRarity.Rare)
+// Example 1: Find the closest rare monster within 50 units
+// Use this when you need to check properties of the closest monster
+var closestRare = Monsters(50, MonsterRarity.Rare)
                   .OrderBy(m => m.Distance)
                   .FirstOrDefault();
 
-// Return true if a rare monster was found and it's within 50 units
-closestRare != null && closestRare.Distance < 50
+// Return true only if a rare monster was found
+closestRare != null
+```
+
+```csharp
+// Example 2: Advanced filtering - Find rare monsters within 100 units that are also invincible
+// This demonstrates chaining multiple filters before ordering
+var invincibleRare = Monsters(100, MonsterRarity.Rare)
+                     .Where(m => m.IsInvincible)
+                     .OrderBy(m => m.Distance)
+                     .FirstOrDefault();
+
+// Only trigger if we found an invincible rare monster
+invincibleRare != null
+```
+
+```csharp
+// Example 3: Count-based logic - Trigger when surrounded by many enemies
+// Useful for defensive skills or area-of-effect abilities
+var nearbyEnemyCount = MonsterCount(30, MonsterRarity.Any);
+
+// Return true if 5 or more enemies are within 30 units
+nearbyEnemyCount >= 5
 ```
 
 ### 3.3. Rule Actions (`SideEffects`)

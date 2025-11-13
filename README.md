@@ -78,6 +78,7 @@ The `RuleState` object provides a snapshot of the current game state. You can ac
 | `IsMoving`         | `bool`            | `true` if the player is currently moving.                                                               |
 | `Flasks`           | `FlasksInfo`      | Provides access to the player's flasks.                                                                 |
 | `MapStats`         | `StatDictionary`  | See [`StatDictionary`](README.md:248) for usage. |
+| `MousePosition`    | `Vector2`         | The current world grid position of the mouse cursor.                                                    |
 
 ### Game & Area Information
 
@@ -191,6 +192,17 @@ The `Flasks` property on the main `RuleState` object gives you access to your fl
 -   **`this[string skillName]`**: Accesses a `SkillInfo` object by its name.
 -   **`Current`**: Returns the `SkillInfo` for the skill currently being used.
 -   **`AllSkills`**: A `List<SkillInfo>` that you can iterate over to find skills with specific properties.
+-   **`BySlotIndex(int slotIndex)`**: Returns the `SkillInfo` for the skill in the specified slot index. Returns an empty `SkillInfo` if no skill is found in that slot.
+
+**Example Usage:**
+
+```csharp
+// Streamlined mana flask logic checking if skill in slot 3 can be used
+SinceLastActivation(1) &&
+!Buffs.Has("grace_period") &&
+(Flasks[4].Name.Contains("Mana Flask") && !Skills.BySlotIndex(3).CanBeUsed) &&
+Flasks[0].CanBeUsed
+```
 
 ### `SkillInfo`
 
@@ -210,6 +222,7 @@ The `Flasks` property on the main `RuleState` object gives you access to your fl
 | `Cooldowns`     | `List<float>`         | A list of remaining cooldowns for skills with multiple charges.          |
 | `CastTime`      | `float`               | The cast time of the skill in seconds.                                   |
 | `DeployedEntities`| `List<MonsterInfo>` | A list of entities created by this skill (e.g., totems, minions, brands). |
+| `Stats`         | `StatDictionary`      | A dictionary of the skill's stats. See [`StatDictionary`](README.md:249) for usage. |
 
 ### `MonsterInfo` / `EntityInfo`
 
